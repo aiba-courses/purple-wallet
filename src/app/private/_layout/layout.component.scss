@@ -1,0 +1,44 @@
+.layout {
+  display: flex;
+  justify-content: space-between;
+  width: 100vw;
+  height: 100vh;
+}
+
+.layout__left {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  background: url('/images/auth-background.jpg') no-repeat;
+  background-size: cover;
+}
+
+.layout__right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1b2028;
+}
+
+.login_container {
+  display: flex;
+  flex-direction: column;
+}
+
+.login__heading {
+  text-align: center;
+}
+
+.login__form {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.login__form--control {
+  width: 450px;
+}
