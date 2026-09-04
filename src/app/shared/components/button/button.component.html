@@ -1,1 +1,5 @@
-<button type="button" class="form__button">Войти</button>
+<button type="button" (click)="onClickEvent($event)" class="form__button">
+  {{ title }}
+</button>
+
+<input type="text" [value]="value" />
