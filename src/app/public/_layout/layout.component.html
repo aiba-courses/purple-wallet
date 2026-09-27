@@ -1,0 +1,33 @@
+<div class="layout">
+  <div class="layout__left">
+    <div class="layout__logo">
+      <img ngSrc="images/logo.svg" alt="logo" width="445" height="107" class="lyout__logo--image">
+    </div>
+  </div>
+
+  <div class="layout__right">
+    <div class="login_container">
+      <h1 class="login__heading">
+        Вход
+      </h1>
+
+      <div class="login__form">
+        <app-input
+          class="login__form--control"
+          iconUrl="icons/mail.svg"
+        />
+
+        <app-password-input
+          class="login__form--control"
+          iconUrl="icons/lock.svg"
+        />
+
+        <app-button
+          title="Войти"
+        >
+          <span>Войти</span>
+        </app-button>
+      </div>
+    </div>
+  </div>
+</div>

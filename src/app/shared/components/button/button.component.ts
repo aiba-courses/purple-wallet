@@ -1,4 +1,12 @@
-import { Component, Input } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ContentChild,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 
 @Component({
   selector: 'app-button',
@@ -6,14 +14,26 @@ import { Component, Input } from '@angular/core';
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss'],
 })
-export class ButtonComponent {
+export class ButtonComponent implements AfterViewInit {
   @Input()
   title = '';
 
+  @Input()
+  disabled = false;
+
+  @Output()
+  btnClick: EventEmitter<void> = new EventEmitter<void>();
+
+  @ContentChild('buttonContent')
+  btnRef: ElementRef | undefined;
+
   value = '';
 
-  onClickEvent(event: Event) {
-    console.log(event);
-    this.value = 'Новое значение';
+  ngAfterViewInit(): void {
+    console.log(this.btnRef);
+  }
+
+  onBtnClick(): void {
+    this.btnClick.emit();
   }
 }

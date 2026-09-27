@@ -1,12 +1,20 @@
-import { Component, signal } from '@angular/core';
-import { ButtonComponent } from './shared/components/button/button.component';
+import {
+  Component,
+} from '@angular/core';
+import { PublicLayoutComponent } from './public/_layout/layout.component';
 
 @Component({
   selector: 'app-root',
-  imports: [ButtonComponent],
+  imports: [PublicLayoutComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  protected readonly title = signal('purple-wallet');
+  title = 'purple-wallet';
+
+  isButtonClicked = false;
+
+  protected onButtonClick() {
+    this.isButtonClicked = !this.isButtonClicked;
+  }
 }
