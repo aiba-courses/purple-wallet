@@ -1,0 +1,20 @@
+.login_container {
+  display: flex;
+  flex-direction: column;
+}
+
+.login__heading {
+  text-align: center;
+}
+
+.login__form {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.login__form--control {
+  width: 450px;
+}

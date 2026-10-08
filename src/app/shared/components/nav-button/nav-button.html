@@ -1,0 +1,24 @@
+<button
+  class="nav__button"
+  [ngClass]="{
+    'nav__button--active': isActive(),
+  }"
+  [ngStyle]="{
+    'font-weight': isActive() ? 'bold' : 'normal',
+  }"
+  [disabled]="disabled()"
+  (click)="onClick($event)"
+>
+<!--  @if(isActive() && iconUrlActive()) {-->
+<!--    <img [ngSrc]="iconUrlActive()" alt="icon" width="24" height="24" />-->
+<!--  } @else {-->
+<!--    <img [ngSrc]="iconUrl()" alt="icon" width="24" height="24" />-->
+<!--  }-->
+  <ng-container
+    *appButtonIcon="isActive(); url: iconUrl(); activeUrl: iconUrlActive(); let src"
+  >
+    <img [src]="src" width="24" height="24" alt="icon" />
+  </ng-container>
+
+  {{ text() }}
+</button>

@@ -1,33 +1,35 @@
-<div class="layout">
-  <div class="layout__left">
-    <div class="layout__logo">
-      <img ngSrc="images/logo.svg" alt="logo" width="445" height="107" class="lyout__logo--image">
-    </div>
+<div class="block__start">
+  <div class="start__logo">
+    <img priority ngSrc="/images/logo.svg" alt="logo" width="170" height="41" routerLink="private/dashboard">
   </div>
 
-  <div class="layout__right">
-    <div class="login_container">
-      <h1 class="login__heading">
-        Вход
-      </h1>
+  <div class="start__menu">
+    @for (item of navLinks; track item.id) {
+      <app-nav-button
+        [text]="item.text"
+        [iconUrl]="item.iconUrl"
+        [iconUrlActive]="item.iconUrlActive"
+        [disabled]="item.disabled"
+        [routerLink]="item.link"
+        routerLinkActive="active"
+      />
+    }
+  </div>
 
-      <div class="login__form">
-        <app-input
-          class="login__form--control"
-          iconUrl="icons/mail.svg"
-        />
+  <div class="start__exit-link">
+    <app-nav-button
+      text="Выход"
+      iconUrl="/icons/logout.svg"
+      (clicked)="onLogoutClick()"
+    />
+  </div>
+</div>
 
-        <app-password-input
-          class="login__form--control"
-          iconUrl="icons/lock.svg"
-        />
-
-        <app-button
-          title="Войти"
-        >
-          <span>Войти</span>
-        </app-button>
-      </div>
-    </div>
+<div class="block__end">
+  <div class="end__nav">
+    <p appFontWeight fontWeight="bold">
+      Хидер
+    </p>
+    <router-outlet></router-outlet>
   </div>
 </div>

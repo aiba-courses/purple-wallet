@@ -1,20 +1,14 @@
 import {
   Component,
 } from '@angular/core';
-import { PublicLayoutComponent } from './private/_layout/layout.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [PublicLayoutComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
   title = 'purple-wallet';
-
-  isButtonClicked = false;
-
-  protected onButtonClick() {
-    this.isButtonClicked = !this.isButtonClicked;
-  }
 }

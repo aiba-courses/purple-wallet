@@ -1,22 +1,32 @@
 import {
   Component,
 } from '@angular/core';
-import { ButtonComponent } from '../../shared/components/button/button.component';
-import { InputComponent } from '../../shared/components/input/input.component';
-import { PasswordInputComponent } from '../../shared/components/password-input/password-input.component';
+import { LeftMenu } from '../../shared/components/left-menu/left-menu';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { NgOptimizedImage } from '@angular/common';
+import { NavButton } from '../../shared/components/nav-button/nav-button';
+import { INavConst, NAV_CONST } from '../../shared/const/menu-items.const';
+import { FontWeightDirective } from '../../shared/directives/font-weight.directive';
 
 @Component({
-  selector: 'app-layout',
-  imports: [ButtonComponent, InputComponent, PasswordInputComponent, NgOptimizedImage],
+  selector: 'app-private-layout',
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss',
   standalone: true,
+  imports: [
+    LeftMenu,
+    RouterOutlet,
+    NgOptimizedImage,
+    NavButton,
+    RouterLink,
+    RouterLinkActive,
+    FontWeightDirective,
+  ],
 })
-export class PublicLayoutComponent {
-  title = 'purple-wallet';
+export class PrivateLayoutComponent {
+  navLinks: INavConst[] = NAV_CONST;
 
-  onButtonClick() {
-    console.log('-- hello');
-  };
+  onLogoutClick() {
+    console.log('logout');
+  }
 }

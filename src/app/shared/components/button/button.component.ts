@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   ContentChild,
   ElementRef,
@@ -14,7 +13,7 @@ import {
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss'],
 })
-export class ButtonComponent implements AfterViewInit {
+export class ButtonComponent {
   @Input()
   title = '';
 
@@ -28,10 +27,6 @@ export class ButtonComponent implements AfterViewInit {
   btnRef: ElementRef | undefined;
 
   value = '';
-
-  ngAfterViewInit(): void {
-    console.log(this.btnRef);
-  }
 
   onBtnClick(): void {
     this.btnClick.emit();
