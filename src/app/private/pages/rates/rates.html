@@ -1,1 +1,7 @@
-<p>rates works!</p>
+@for (item of rates; track item.assetId) {
+  <app-rate
+    [data]="item"
+  />
+} @empty {
+  <span>Данные не получены</span>
+}

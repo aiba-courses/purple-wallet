@@ -9,16 +9,16 @@
         {{ data.assetName }}
       </span>
       <span class="asset__name-short">
-        {{ data.assetId | uppercase }}
+        {{ data.assetId | legacyuppercase }}
       </span>
     </div>
 
     <div class="asset__value">
-      {{ data.value }} {{ data.assetId | uppercase }}
+      {{ data.value | number: '2.2-2' }} {{ data.assetId | legacyuppercase }}
     </div>
 
     <div class="fiat__value">
-      {{ data.valueInFiat }} $
+      {{ data.valueInFiat | currency: 'RUB' : 'symbol-narrow' }}
     </div>
 
     <div
@@ -28,7 +28,7 @@
         'asset__rate--danger': data.rateChange <= 0
       }"
     >
-      {{ data.rateChange !== 0 ? `${data.rateChange}%` : '0' }}
+      {{ data.rateChange / 100 | percent }}
     </div>
 
     <div class="asset__rate-change">
