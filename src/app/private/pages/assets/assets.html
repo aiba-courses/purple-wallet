@@ -1,5 +1,5 @@
 <div class="assets">
-  @for(item of assets; track item.assetId) {
+  @for(item of assetsSignal(); track item.assetId) {
     <app-asset
       class="asset"
       [data]="item"

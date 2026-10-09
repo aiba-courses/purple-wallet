@@ -1,0 +1,86 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 0;
+}
+
+.header__heading {
+  flex-shrink: 0;
+}
+
+.header__heading .h1 {
+  font-weight: 600;
+  color: #fff;
+}
+
+.header__action {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.header__buttons {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header__btn {
+  background: #1b2028;
+  border: none;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header__btn--notification img {
+  width: 20px;
+  height: 20px;
+}
+
+.header__btn-dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 6px;
+  height: 6px;
+  background: #f46d22;
+  border-radius: 50%;
+}
+
+.header__profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.header__profile:after {
+  content: url('/icons/shevron.svg');
+  height: 30px;
+}
+
+.header__profile .header__avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.header__profile .header__username {
+  color: #fff;
+  font-size: 14px;
+}
+
+.header__profile .header__dropdown {
+  width: 12px;
+  height: 12px;
+  opacity: 0.6;
+}

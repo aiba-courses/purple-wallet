@@ -1,4 +1,6 @@
-@if (data != null) {
+@let data = this.data();
+
+@if (data) {
   <div class="rate__card">
     <div class="rate__icon">
       <img [ngSrc]="data.logoUrl" alt="logo" width="25" height="25" />

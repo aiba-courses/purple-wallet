@@ -6,7 +6,7 @@ import { Dashboard } from './private/pages/dashboard/dashboard';
 import { authGuard } from './shared/guard/auth-guard';
 import { Assets } from './private/pages/assets/assets';
 import { Exchange } from './private/pages/exchange/exchange';
-import { Rates } from './private/pages/rates/rates';
+import Rates from './private/pages/rates/rates';
 
 export const routes: Routes = [
   {
@@ -16,6 +16,7 @@ export const routes: Routes = [
       {
         path: 'log-in',
         component: LogIn,
+        title: 'Авторизация',
       },
       {
         path: '**',
@@ -33,18 +34,25 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         component: Dashboard,
+        title: 'Главная',
       },
       {
         path: 'assets',
         component: Assets,
+        title: 'Мои ассеты',
       },
       {
         path: 'exchange',
         component: Exchange,
+        title: 'Обмен',
       },
       {
         path: 'rates',
         component: Rates,
+        title: 'Курсы валют',
+        data: {
+          isShowSearch: true,
+        },
       },
       {
         path: '**',

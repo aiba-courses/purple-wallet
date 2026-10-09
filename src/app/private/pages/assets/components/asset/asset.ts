@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, Input } from '@angular/core';
 import { IAssetModel } from '../../models/asset.model';
 import {
   CurrencyPipe,
@@ -14,7 +14,6 @@ import { LegacyUppercasePipe } from '../../../../../shared/pipes/legacy-uppercas
   imports: [
     NgOptimizedImage,
     NgClass,
-    UpperCasePipe,
     CurrencyPipe,
     PercentPipe,
     DecimalPipe,
@@ -25,6 +24,5 @@ import { LegacyUppercasePipe } from '../../../../../shared/pipes/legacy-uppercas
   templateUrl: './asset.html',
 })
 export class Asset {
-  @Input()
-  data: IAssetModel | null = null;
+  data = input.required<IAssetModel>();
 }

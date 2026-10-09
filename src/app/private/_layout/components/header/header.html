@@ -1,0 +1,31 @@
+<div class="header">
+  <div class="header__heading">
+    <h1>
+      {{ title() }}
+    </h1>
+  </div>
+  <div class="header__action">
+    @if (isShowSearch()) {
+      <app-search-input
+        [value]="searchValue()"
+        (controlValue)="onInputChange($event)"
+      />
+    }
+  </div>
+  <div class="header__buttons">
+    <button type="button" class="header__btn header__btn--notification">
+      <img
+        src="/icons/notification.svg"
+        alt="Notification"
+        width="24"
+        height="24" />
+    </button>
+
+    <div class="header__profile">
+      <img [src]="profileData()?.avatar" alt="avatar" width="44" height="44" />
+      <span class="header__username">
+        {{ profileData()?.firstName }} {{ profileData()?.lastName }}
+      </span>
+    </div>
+  </div>
+</div>
