@@ -1,0 +1,136 @@
+.dashboard {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  padding: 24px;
+}
+
+.dashboard > h2 {
+  flex: 0 0 100%;
+  margin: 0 0 20px 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+// Rates
+.dashboard__rates {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+
+  flex: 0 0 100%;
+  margin-bottom: 40px;
+}
+
+.dashboard__rates > h2 {
+  flex: 0 0 100%;
+  margin: 0 0 20px 0;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.dashboard__rates > app-rate {
+  display: block;
+  margin-right: 2%;
+  margin-bottom: 20px;
+}
+
+// Balance
+.dashboard__balance {
+  flex: 0 0 320px;
+  max-width: 320px;
+  margin-right: 24px;
+  height: 180px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #3b82ff, #0042ff);
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #ffffff;
+}
+
+.balance-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.balance-card__label {
+  font-size: 16px;
+  font-weight: 300;
+  opacity: 0.7;
+}
+
+.balance-card__badges {
+  display: flex;
+  gap: 6px;
+}
+
+.balance-card__badge {
+  border-radius: 10px;
+  display: inline-block;
+}
+
+.balance-card__badge--primary {
+  width: 26px;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.balance-card__badge--secondary {
+  width: 18px;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.balance-card__amount {
+  font-size: 36px;
+  font-weight: 500;
+}
+
+.balance-card__bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.balance-card__owner-name {
+  font-size: 12px;
+  font-weight: 300;
+  opacity: 0.7;
+}
+
+// Assets
+.dashboard__assets {
+  flex: 1 1 0;
+  max-width: none;
+  min-width: 0;
+  min-height: 170px;
+  padding: 28px 32px;
+  border-radius: 20px;
+  background: #1b2028;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  column-gap: 60px;
+  row-gap: 26px;
+}
+
+.dashboard__assets ::ng-deep .asset__card {
+  flex: 0 0 260px;
+}
+
+.dashboard__assets ::ng-deep .asset__card {
+  display: grid;
+  grid-template-columns:
+    40px /* иконка */
+    120px /* название */
+    90px /* crypto value */
+    100px /* fiat value */
+    40px /* percent */
+    20px; /* arrow */
+  align-items: center;
+  column-gap: 12px;
+}

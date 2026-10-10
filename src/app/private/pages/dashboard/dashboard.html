@@ -1,1 +1,27 @@
-<router-outlet></router-outlet>
+<div class="dashboard">
+  <div class="dashboard__rates">
+    <h2>Популярные монеты</h2>
+    @for (item of rates(); track item.assetId) {
+      <app-rate [data]="item" />
+    } @empty {
+      <p>Идет загрузка...</p>
+    }
+  </div>
+
+  <h2>Мой баланс</h2>
+
+  <div class="dashboard__balance">
+    <div class="balance-card__amount">
+      {{ balance()?.amount | number : '2.2-2' }} {{ balance()?.currency }}
+    </div>
+    <div class="balance-card__owner-name">{{ user() }}</div>
+  </div>
+
+  <div class="dashboard__assets">
+    @for (item of assets(); track item.assetId) {
+      <app-asset [data]="item" />
+    } @empty {
+      <p>Идет загрузка...</p>
+    }
+  </div>
+</div>

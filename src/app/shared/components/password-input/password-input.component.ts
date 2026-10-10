@@ -1,13 +1,17 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
-  EventEmitter,
+  EventEmitter, forwardRef,
   input,
   Input,
   Output,
   signal,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 
 export enum EPasswordInputIcons {
   Opened = 'icons/eye_opened.svg',
@@ -20,25 +24,24 @@ export enum EPasswordInputIcons {
   templateUrl: './password-input.component.html',
   styleUrls: ['./password-input.component.scss'],
   standalone: true,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => PasswordInputComponent),
+      multi: true,
+    },
+  ],
 })
-export class PasswordInputComponent {
+export class PasswordInputComponent implements ControlValueAccessor {
   iconUrl = input<string>('icons/lock.svg');
   placeholder = input('');
-  disabled = input<boolean>(false);
+
+  @Input()
+  disabled = false;
   type = signal<'password' | 'text'>('password');
   buttonIcon = signal<EPasswordInputIcons>(EPasswordInputIcons.Closed);
 
-  @Input()
   value = '';
-
-  @Output()
-  controlValue: EventEmitter<string> = new EventEmitter<string>();
-
-  onInput(event: Event): void {
-    const target = event.target as HTMLInputElement;
-    this.value = target.value;
-    this.controlValue.emit(this.value);
-  }
 
   onButtonToggleClick(): void {
     if (this.type() === 'password') {
@@ -48,5 +51,34 @@ export class PasswordInputComponent {
       this.type.set('password');
       this.buttonIcon.set(EPasswordInputIcons.Closed);
     }
+  }
+
+  private onChange: (value: string) => void = () => {
+    /* empty */
+  };
+  private onTouched: () => void = () => {
+    /* empty */
+  };
+
+  writeValue(value: string): void {
+    this.value = value ?? '';
+  }
+  registerOnChange(fn: (value: string) => void): void {
+    this.onChange = fn;
+  }
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+  setDisabledState?(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
+  handleInput(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const value = target.value;
+    this.value = value;
+
+    this.onChange(value);
+    this.onTouched();
   }
 }

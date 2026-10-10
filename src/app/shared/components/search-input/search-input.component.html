@@ -3,9 +3,8 @@
     class="form__input"
     [type]="type()"
     [placeholder]="placeholder()"
-    [disabled]="disabled()"
-    [(ngModel)]="value"
-    (input)="onInput($event)"
+    [disabled]="disabled"
+    (input)="handleInput($event)"
   />
   <div class="form__icon">
     @if (iconUrl()) {

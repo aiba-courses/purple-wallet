@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
 import { PublicLayoutComponent } from './public/_layout/layout.component';
-import { PrivateLayoutComponent } from './private/_layout/layout.component';
 import { LogIn } from './public/pages/log-in/log-in';
 import { Dashboard } from './private/pages/dashboard/dashboard';
 import { authGuard } from './shared/guard/auth-guard';
 import { Assets } from './private/pages/assets/assets';
 import { Exchange } from './private/pages/exchange/exchange';
 import Rates from './private/pages/rates/rates';
+import { PrivateLayoutComponent } from './private/_layout/layout.component';
 
 export const routes: Routes = [
   {

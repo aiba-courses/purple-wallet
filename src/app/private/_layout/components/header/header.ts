@@ -8,22 +8,31 @@ import {
   IUserModel,
 } from '../../../../shared/const/fake-profile.const';
 import { SearchInputComponent } from '../../../../shared/components/search-input/search-input.component';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { StoreService } from '../../../../shared/services/store.service';
+import { ProfileService } from '../../../../shared/services/profile.service';
+import { IAppProfieStore } from '../../../../shared/services/profile-store.service';
+import { ErrorStoreService } from '../../../../shared/services/error-store.service';
 
 @Component({
-  imports: [SearchInputComponent],
+  imports: [SearchInputComponent, ReactiveFormsModule],
   selector: 'app-header',
   styleUrl: './header.scss',
   templateUrl: './header.html',
+  providers: [ProfileService],
 })
 export class Header implements OnInit {
   private _titleService = inject(Title);
   private _router = inject(Router);
   private _activatedRoute = inject(ActivatedRoute);
   private _destroyRef = inject(DestroyRef);
+  private _store = inject(StoreService);
+  private _profileService = inject(ProfileService);
+  private _errorStore = inject(ErrorStoreService);
 
   title = signal<string>('');
 
-  profileData = toSignal<IUserModel>(of(FAKE_PROFILE).pipe(delay(100)));
+  profileData = toSignal<IAppProfieStore>(this._profileService.profile$);
   isShowSearch = toSignal<boolean>(
     this._router.events.pipe(
       startWith(null),
@@ -41,6 +50,8 @@ export class Header implements OnInit {
   );
 
   ngOnInit() {
+    this._errorStore.getValueAsync().subscribe(console.log);
+
     this._router.events
       .pipe(
         delay(100),
@@ -52,6 +63,8 @@ export class Header implements OnInit {
         takeUntilDestroyed(this._destroyRef)
       )
       .subscribe();
+
+    this._setFormValueToStore();
   }
 
   protected onInputChange(q: string) {
@@ -62,7 +75,21 @@ export class Header implements OnInit {
     });
   }
 
-  searchValue = toSignal(this._activatedRoute.queryParamMap.pipe(
-    map(v => v.get('q') ?? '')
-  ));
+  searchValue = toSignal(
+    this._activatedRoute.queryParamMap.pipe(map(v => v.get('q') ?? ''))
+  );
+
+  form: FormGroup = new FormGroup({
+    search: new FormControl(''),
+  });
+
+  private _setFormValueToStore() {
+    this.form.valueChanges.subscribe();
+    this.form.controls['search'].valueChanges
+      .pipe(
+        tap(value => this._store.setFormValue('search', value)),
+        takeUntilDestroyed(this._destroyRef)
+      )
+      .subscribe();
+  }
 }

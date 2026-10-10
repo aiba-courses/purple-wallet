@@ -1,0 +1,373 @@
+openapi: 3.1.0
+info:
+  title: PurpleWallet API
+  version: 1.0.0
+  description: |
+    API для бэкенда PurpleWallet. Все методы (кроме health и auth) требуют JWT в заголовке `Authorization: Bearer <token>`.
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    StatusResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: ok
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+        - message
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 1
+      required:
+        - email
+        - password
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+        tokenType:
+          type: string
+          example: Bearer
+        expiresIn:
+          type: string
+          example: 1h
+      required:
+        - token
+        - tokenType
+        - expiresIn
+    Profile:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        firstName:
+          type: string
+        lastName:
+          type: string
+        gender:
+          type: string
+          enum: [male, female]
+        avatar:
+          type: string
+      required:
+        - id
+        - firstName
+        - lastName
+        - gender
+        - avatar
+    Asset:
+      type: object
+      properties:
+        assetId:
+          type: string
+          example: btc
+        assetName:
+          type: string
+        logoUrl:
+          type: string
+          format: uri
+        value:
+          type: number
+        rateChange:
+          type: number
+        valueInFiat:
+          type: number
+      required:
+        - assetId
+        - assetName
+        - logoUrl
+        - value
+        - rateChange
+        - valueInFiat
+    Balance:
+      type: object
+      properties:
+        amount:
+          type: number
+          example: 1000.5
+        currency:
+          type: string
+          example: RUR
+      required:
+        - amount
+        - currency
+    Rate:
+      type: object
+      properties:
+        assetId:
+          type: string
+          example: btc
+        assetName:
+          type: string
+        logoUrl:
+          type: string
+          format: uri
+        course:
+          type: number
+        rateChange:
+          type: number
+      required:
+        - assetId
+        - assetName
+        - logoUrl
+        - course
+        - rateChange
+    PaginationMeta:
+      type: object
+      properties:
+        total:
+          type: integer
+          minimum: 0
+        page:
+          type: integer
+          minimum: 1
+        limit:
+          type: integer
+          minimum: 1
+        totalPages:
+          type: integer
+          minimum: 1
+      required: [total, page, limit, totalPages]
+    RateListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Rate'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+      required: [data, meta]
+paths:
+  /api/v1/health:
+    get:
+      summary: Проверка живости
+      tags: [Health]
+      responses:
+        '200':
+          description: Сервис работает
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+  /api/v1/auth/login:
+    post:
+      summary: Выдаёт JWT по валидным учётным данным
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: JWT успешно сгенерирован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '400':
+          description: Email или пароль не прошли минимальную валидацию
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/auth/logout:
+    post:
+      summary: Завершает сессию
+      tags: [Auth]
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Логаут выполнен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '401':
+          description: Нет или неверный токен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/profile:
+    get:
+      summary: Возвращает профиль пользователя
+      tags: [Profile]
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Профиль пользователя
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+        '401':
+          description: Нет или неверный токен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/assets:
+    get:
+      summary: Список активов
+      tags: [Assets]
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Asset'
+        '401':
+          description: Нет или неверный токен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/assets/{assetId}:
+    get:
+      summary: Отдельный актив по идентификатору
+      tags: [Assets]
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Например `btc`
+      responses:
+        '200':
+          description: Найденный актив
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asset'
+        '401':
+          description: Нет или неверный токен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Актив не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/balance:
+    get:
+      summary: Баланс пользователя
+      tags: [Balance]
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Баланс в фиате
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Balance'
+        '401':
+          description: Нет или неверный токен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/rates:
+    get:
+      summary: Список курсов криптовалют (с пагинацией)
+      tags: [Rates]
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          description: Номер страницы (>=1)
+          schema:
+            type: integer
+            minimum: 1
+        - name: limit
+          in: query
+          description: Количество элементов на странице (>=1)
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateListResponse'
+        '401':
+          description: Нет или неверный токен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/rates/{assetId}:
+    get:
+      summary: Отдельный курс по идентификатору
+      tags: [Rates]
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Например `btc`
+      responses:
+        '200':
+          description: Найденный курс
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rate'
+        '401':
+          description: Нет или неверный токен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Курс не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'

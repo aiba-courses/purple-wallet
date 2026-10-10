@@ -3,24 +3,52 @@
     Вход
   </h1>
 
-  <div class="login__form">
+  <form class="login__form" [formGroup]="form">
     <app-input
       class="login__form--control"
       iconUrl="icons/mail.svg"
-      (controlValue)="onInputChange($event)"
+      formControlName="email"
     />
 
     <app-password-input
       class="login__form--control"
       iconUrl="icons/lock.svg"
-      (controlValue)="onInputChange($event)"
+      formControlName="password"
     />
 
+    @if(error()) {
+      <div class="login__form--errors">
+        {{ error() }}
+      </div>
+    }
     <app-button
       title="Войти"
-      routerLink="/private"
+      (btnClick)="onLoginClick()"
     >
       <span>Войти</span>
     </app-button>
-  </div>
+    @if (form.controls.email?.invalid && form.controls.email?.touched) {
+      <div class="login__form--errors">
+        Введите email
+      </div>
+    }
+
+    @if (
+      form.controls.password?.errors?.['required']
+      && form.controls.email?.touched
+    ) {
+      <div class="login__form--errors">
+        Пароль не введен
+      </div>
+    }
+
+    @if (
+      form.controls.password?.errors?.['noSpaces']
+      && form.controls.email?.touched
+      ) {
+      <div class="login__form--errors">
+        Нет пробелам!
+      </div>
+    }
+  </form>
 </div>

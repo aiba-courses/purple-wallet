@@ -6,10 +6,11 @@
   </div>
   <div class="header__action">
     @if (isShowSearch()) {
-      <app-search-input
-        [value]="searchValue()"
-        (controlValue)="onInputChange($event)"
-      />
+      <div [formGroup]="form">
+        <app-search-input
+          formControlName="search"
+        />
+      </div>
     }
   </div>
   <div class="header__buttons">

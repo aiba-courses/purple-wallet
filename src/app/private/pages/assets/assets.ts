@@ -1,19 +1,19 @@
-import { Component, Signal } from '@angular/core';
-import { IAssetModel } from './models/asset.model';
-import { FAKE_ASSETS } from '../../../shared/const/fake-assets.const';
-import { JsonPipe } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { Asset } from './components/asset/asset';
-import { delay, Observable, of } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { AssetsService } from './sevices/assets.service';
 
 @Component({
-  imports: [JsonPipe, Asset],
+  imports: [Asset],
   selector: 'app-assets',
   styleUrl: './assets.scss',
   templateUrl: './assets.html',
+  providers: [AssetsService]
 })
 export class Assets {
-  assets$: Observable<IAssetModel[]> = of(FAKE_ASSETS).pipe(delay(1000));
+  private _assetsService = inject(AssetsService);
 
-  assetsSignal: Signal<IAssetModel[]> = toSignal(this.assets$, { initialValue: [] });
+  assetsSignal = toSignal(this._assetsService.assets$, {
+    initialValue: [],
+  });
 }
